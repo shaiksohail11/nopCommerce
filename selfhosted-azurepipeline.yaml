@@ -1,0 +1,27 @@
+---
+pool:
+  name: "my pipeline"
+  vmImage: ubuntu-20.04
+
+trigger:
+  - develop
+
+jobs:
+  - job: prerequesite job
+    displayName: install softwares
+    steps:
+      - task: DotNetCoreInstaller@1
+        inputs:
+          packageType: 'sdk' # 'runtime' | 'sdk'. Required. Package to install. Default: sdk.
+          version: '7.x'
+  - job: Building dotnet
+    displayName: Build dotnet
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+          command: 'build'
+          projects: src/NopCommerce.sln
+          publishTestResults: true
+      
+    
